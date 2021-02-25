@@ -6,8 +6,8 @@ import io.javaoperatorsdk.operator.processing.event.internal.CustomResourceEvent
 import io.k8s.operator.tomcat.event.DeploymentEvent
 import io.k8s.operator.tomcat.event.DeploymentEventSource
 import io.k8s.operator.tomcat.model.resource.Tomcat
-import io.k8s.operator.tomcat.service.TomcatDeploymentService
-import io.k8s.operator.tomcat.service.TomcatServiceService
+import io.k8s.operator.tomcat.service.DeploymentService
+import io.k8s.operator.tomcat.service.ServiceService
 import mu.KotlinLogging
 import javax.enterprise.context.ApplicationScoped
 
@@ -19,7 +19,7 @@ private val log = KotlinLogging.logger {}
  * */
 @Controller
 @ApplicationScoped
-class TomcatController(val deploymentEventSource: DeploymentEventSource, val deploymentService: TomcatDeploymentService, val serviceService: TomcatServiceService)
+class TomcatController(val deploymentEventSource: DeploymentEventSource, val deploymentService: DeploymentService, val serviceService: ServiceService)
     : ResourceController<Tomcat> {
 
     override fun init(eventSourceManager: EventSourceManager) {

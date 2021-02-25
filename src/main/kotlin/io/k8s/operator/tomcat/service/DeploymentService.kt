@@ -19,9 +19,9 @@ private val log = KotlinLogging.logger {}
  *
  * */
 @ApplicationScoped
-class TomcatDeploymentService(val kubernetesClient: KubernetesClient, val resourcesService: ResourcesService) {
+class DeploymentService(val kubernetesClient: KubernetesClient, val resourcesService: ResourcesService) {
 
-    public fun find(namespace: String, name: String): RollableScalableResource<Deployment> {
+    fun find(namespace: String, name: String): RollableScalableResource<Deployment> {
         log.debug("Searching Deployment {} from namespace {}", name, namespace)
         return kubernetesClient.apps()
                 .deployments()
@@ -29,7 +29,7 @@ class TomcatDeploymentService(val kubernetesClient: KubernetesClient, val resour
                 .withName(name)
     }
 
-    public fun updateStatus(tomcat: Tomcat, deployment: Deployment): Tomcat {
+    fun updateStatus(tomcat: Tomcat, deployment: Deployment): Tomcat {
         log.debug("Updating status for Deployment {} in namespace {}", deployment.metadata.name, deployment.metadata.namespace)
 
         val deploymentStatus = Objects.requireNonNullElse(deployment.status, DeploymentStatus())
@@ -41,7 +41,7 @@ class TomcatDeploymentService(val kubernetesClient: KubernetesClient, val resour
         return tomcat
     }
 
-    public fun createOrUpdate(tomcat: Tomcat): Deployment {
+    fun createOrUpdate(tomcat: Tomcat): Deployment {
         log.debug("Creating or Updating Deployment {} in namespace {}", tomcat.metadata.name, tomcat.metadata.namespace)
 
         val existingDeployment = find(tomcat.metadata.namespace, tomcat.metadata.name)
@@ -53,7 +53,7 @@ class TomcatDeploymentService(val kubernetesClient: KubernetesClient, val resour
         }
     }
 
-    public fun create(tomcat: Tomcat): Deployment {
+    fun create(tomcat: Tomcat): Deployment {
 
         val deployment = resourcesService.loadYaml(Deployment::class.java, "deployment.yaml")
 
@@ -85,7 +85,7 @@ class TomcatDeploymentService(val kubernetesClient: KubernetesClient, val resour
                 .create(deployment)
     }
 
-    public fun update(tomcat: Tomcat, existingDeployment: Deployment): Deployment {
+    fun update(tomcat: Tomcat, existingDeployment: Deployment): Deployment {
         log.info("Updating Deployment {} in namespace {}", tomcat.metadata.name, tomcat.metadata.namespace)
 
         existingDeployment.spec.template.spec.containers[0].image = "tomcat:" + tomcat.spec.version
@@ -96,7 +96,7 @@ class TomcatDeploymentService(val kubernetesClient: KubernetesClient, val resour
                 .createOrReplace(existingDeployment)
     }
 
-    public fun delete(tomcat: Tomcat) {
+    fun delete(tomcat: Tomcat) {
         log.info("Deleting Deployment {} in namespace {}", tomcat.metadata.name, tomcat.metadata.namespace)
 
         val existingDeployment = find(tomcat.metadata.namespace, tomcat.metadata.name)

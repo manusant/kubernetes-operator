@@ -14,7 +14,7 @@ private val log = KotlinLogging.logger {}
 @ApplicationScoped
 class ResourcesService {
 
-    public fun <T> loadYaml(clazz: Class<T>, yaml: String): T {
+    fun <T> loadYaml(clazz: Class<T>, yaml: String): T {
         log.debug { "Loading YAML file to Resource" }
         try {
             javaClass.getResourceAsStream(yaml).use { inputStream -> return Serialization.unmarshal(inputStream, clazz) }

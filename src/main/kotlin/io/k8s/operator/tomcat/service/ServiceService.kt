@@ -14,16 +14,16 @@ private val log = KotlinLogging.logger {}
  *
  * */
 @ApplicationScoped
-class TomcatServiceService(val kubernetesClient: KubernetesClient, val resourcesService: ResourcesService) {
+class ServiceService(val kubernetesClient: KubernetesClient, val resourcesService: ResourcesService) {
 
-    public fun find(namespace: String, name: String): ServiceResource<Service> {
+    fun find(namespace: String, name: String): ServiceResource<Service> {
         log.debug("Searching Service {} on namespace {}", name, namespace)
         return kubernetesClient.services()
                 .inNamespace(namespace)
                 .withName(name)
     }
 
-    public fun createOrUpdate(tomcat: Tomcat) {
+    fun createOrUpdate(tomcat: Tomcat) {
         log.debug { "Loading service definitions fromm yaml" }
         val service = resourcesService.loadYaml(Service::class.java, "service.yaml")
 
@@ -40,7 +40,7 @@ class TomcatServiceService(val kubernetesClient: KubernetesClient, val resources
                 .createOrReplace(service)
     }
 
-    public fun delete(tomcat: Tomcat) {
+    fun delete(tomcat: Tomcat) {
         log.debug("Deleting Service {}", tomcat.metadata.name)
 
         val service = find(tomcat.metadata.namespace, tomcat.metadata.name)
