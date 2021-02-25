@@ -4,7 +4,10 @@ import io.fabric8.kubernetes.api.model.apps.Deployment
 import io.fabric8.kubernetes.client.Watcher
 import io.javaoperatorsdk.operator.processing.event.AbstractEvent
 
-
+/**
+ * @author manusant (ney.br.santos@gmail.com)
+ *
+ * */
 class DeploymentEvent(val action: Watcher.Action, val deployment: Deployment, deploymentEventSource: DeploymentEventSource)
     : AbstractEvent(deployment.metadata.ownerReferences[0].uid, deploymentEventSource) {
 
@@ -26,7 +29,7 @@ class DeploymentEvent(val action: Watcher.Action, val deployment: Deployment, de
                 + deployment.metadata.resourceVersion
                 + ", markedForDeletion: "
                 + (deployment.metadata.deletionTimestamp != null
-                && !deployment.metadata.deletionTimestamp.isEmpty())
+                && deployment.metadata.deletionTimestamp.isNotEmpty())
                 + " ]"
                 + '}')
     }

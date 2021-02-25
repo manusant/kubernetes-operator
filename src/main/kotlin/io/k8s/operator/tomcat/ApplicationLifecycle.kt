@@ -8,6 +8,10 @@ import javax.enterprise.event.Observes
 
 private val log = KotlinLogging.logger {}
 
+/**
+ * @author manusant (ney.br.santos@gmail.com)
+ *
+ * */
 @ApplicationScoped
 class ApplicationLifecycle {
 

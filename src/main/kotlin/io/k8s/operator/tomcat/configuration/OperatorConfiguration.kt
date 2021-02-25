@@ -10,6 +10,10 @@ import javax.inject.Singleton
 
 private val log = KotlinLogging.logger {}
 
+/**
+ * @author manusant (ney.br.santos@gmail.com)
+ *
+ * */
 @ApplicationScoped
 class OperatorConfiguration {
 

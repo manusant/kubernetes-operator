@@ -7,6 +7,10 @@ import javax.enterprise.context.ApplicationScoped
 
 private val log = KotlinLogging.logger {}
 
+/**
+ * @author manusant (ney.br.santos@gmail.com)
+ *
+ * */
 @ApplicationScoped
 class ResourcesService {
 
