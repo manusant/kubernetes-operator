@@ -11,6 +11,6 @@ import io.k8s.operator.tomcat.model.status.TomcatStatus
  * @author manusant (ney.br.santos@gmail.com)
  *
  * */
-@Group("tomcatoperator.io")
+@Group("tomcat.operator.io")
 @Version("v1")
 class Tomcat : CustomResource<TomcatSpec, TomcatStatus>(), Namespaced
