@@ -1,0 +1,2 @@
+Manifest-Version: 1.0
+Main-Class: io.k8s.operator.tomcat.OperatorApplicationKt
