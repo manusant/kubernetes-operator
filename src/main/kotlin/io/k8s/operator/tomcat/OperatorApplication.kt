@@ -16,7 +16,7 @@ class OperatorApplication : QuarkusApplication {
     lateinit var operator: Operator
 
     override fun run(vararg args: String?): Int {
-        log.debug { "Starting Tomcat K8s Operator..." }
+        log.info { "Starting Tomcat K8s Operator..." }
         operator.start();
         Quarkus.waitForExit();
         return 0;
