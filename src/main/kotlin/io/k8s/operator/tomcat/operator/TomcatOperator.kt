@@ -1,10 +1,10 @@
 package io.k8s.operator.tomcat.operator
 
 import io.javaoperatorsdk.operator.Operator
+import io.k8s.operator.tomcat.controller.TomcatController
 import mu.KotlinLogging
 import javax.annotation.PostConstruct
 import javax.enterprise.context.ApplicationScoped
-import javax.inject.Inject
 
 private val log = KotlinLogging.logger {}
 
@@ -13,14 +13,13 @@ private val log = KotlinLogging.logger {}
  *
  * */
 @ApplicationScoped
-class TomcatOperator {
-
-    @Inject
-    lateinit var operator: Operator
+class TomcatOperator(val operator: Operator, val tomcatController: TomcatController) {
 
     @PostConstruct
     fun registerControllers() {
-        log.debug { "Registering controllers to Tomcat Operator" }
+        log.info { "Registering controllers to Tomcat Operator" }
 
+        log.info { "Registering TomcatController" }
+        operator.register(tomcatController)
     }
 }
