@@ -1,5 +1,3 @@
-@file:JvmName("TomcatDeploymentServiceKt")
-
 package io.k8s.operator.tomcat.service
 
 import io.fabric8.kubernetes.api.model.apps.Deployment
