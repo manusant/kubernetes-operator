@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: tomcats-v2
+
+---
+apiVersion: "tomcat.operator.io/v1"
+kind: Tomcat
+metadata:
+  name: test-tomcat2
+  namespace: tomcats-v2
+spec:
+  version: 8.0
+  port: 30001
+  replicas: 2

@@ -24,20 +24,30 @@ class ServiceService(val kubernetesClient: KubernetesClient, val resourcesServic
     }
 
     fun createOrUpdate(tomcat: Tomcat) {
-        log.debug { "Loading service definitions fromm yaml" }
-        val service = resourcesService.loadYaml(Service::class.java, "service.yaml")
+        log.debug("Creating Service {} in namespace {}", tomcat.metadata.name, tomcat.metadata.namespace)
 
         val namespace = tomcat.metadata.namespace
         val name = tomcat.metadata.name
 
-        service.metadata.name = name
-        service.metadata.namespace = namespace
-        service.spec.selector["app"] = name
+        val existingService = find(namespace, name)
 
-        log.debug("Creating or updating Service {} in {}", name, namespace)
-        kubernetesClient.services()
-                .inNamespace(namespace)
-                .createOrReplace(service)
+        if (existingService.get() == null) {
+
+            log.debug { "Loading service definitions fromm yaml" }
+            val service = resourcesService.loadYaml(Service::class.java, "service.yaml")
+
+            service.metadata.name = name
+            service.metadata.namespace = namespace
+            service.spec.selector["app"] = name
+            service.spec.ports[0].nodePort = tomcat.spec.port
+
+            log.debug("Creating or updating Service {} in {}", name, namespace)
+            kubernetesClient.services()
+                    .inNamespace(namespace)
+                    .createOrReplace(service)
+        } else {
+            log.debug("Service {} already created in namespace {}", name, namespace);
+        }
     }
 
     fun delete(tomcat: Tomcat) {
