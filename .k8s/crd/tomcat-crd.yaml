@@ -33,6 +33,8 @@ spec:
               properties:
                 readyReplicas:
                   type: integer
+                error:
+                  type: string
           required: [spec]
   # either Namespaced or Cluster
   scope: Namespaced

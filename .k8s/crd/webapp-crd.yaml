@@ -33,6 +33,8 @@ spec:
               properties:
                 deployedArtifact:
                   type: string
+                error:
+                  type: string
           required: [ spec ]
   # either Namespaced or Cluster
   scope: Namespaced
@@ -42,7 +44,7 @@ spec:
     # singular name to be used as an alias on the CLI and for display
     singular: webapp
     # kind is normally the CamelCased singular type. Your resource manifests use this.
-    kind: Webapp
+    kind: WebApp
     # shortNames allow shorter string to match your resource on the CLI
     shortNames:
       - wa

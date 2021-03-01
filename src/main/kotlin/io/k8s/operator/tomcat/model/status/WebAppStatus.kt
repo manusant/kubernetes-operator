@@ -4,4 +4,4 @@ package io.k8s.operator.tomcat.model.status
  * @author manusant (ney.br.santos@gmail.com)
  *
  * */
-data class WebAppStatus(var deployedArtifact: String = "")
+data class WebAppStatus(var deployedArtifact: String = "", var error: String = "")

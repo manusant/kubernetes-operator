@@ -47,6 +47,8 @@ class TomcatController(val deploymentEventSource: DeploymentEventSource, val dep
             }
             return UpdateControl.noUpdate()
         } catch (ex: KubernetesClientException) {
+            tomcat.status.error = "Error creating/updating resource: ${ex.message}"
+
             // Unprocessable Entity
             if (ex.code == 422) {
                 log.error { ex.message }
@@ -59,9 +61,13 @@ class TomcatController(val deploymentEventSource: DeploymentEventSource, val dep
 
     override fun deleteResource(tomcat: Tomcat, context: Context<Tomcat>): DeleteControl {
         log.debug { "Delete event received for Tomcat Resource" }
-
-        deploymentService.delete(tomcat)
-        serviceService.delete(tomcat)
-        return DeleteControl.DEFAULT_DELETE
+        try {
+            deploymentService.delete(tomcat)
+            serviceService.delete(tomcat)
+            return DeleteControl.DEFAULT_DELETE
+        } catch (ex: Exception) {
+            tomcat.status.error = "Error deleting resource: ${ex.message}"
+            throw ex
+        }
     }
 }

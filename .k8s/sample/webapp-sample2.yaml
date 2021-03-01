@@ -1,0 +1,9 @@
+apiVersion: "tomcat.operator.io/v1"
+kind: WebApp
+metadata:
+  name: sample-webapp2
+  namespace: tomcats-v2
+spec:
+  tomcat: test-tomcat2
+  url: charlottemach.com/assets/jax.war
+  contextPath: webapp2
