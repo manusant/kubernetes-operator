@@ -1,4 +1,4 @@
-# k8s-operator
+# Kubernetes Operator
 Kubernetes Operator to manage Tomcat deployments
 
 * Learning Quarkus
